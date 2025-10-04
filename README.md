@@ -27,7 +27,7 @@ Quarkusフレームワークを使用したシンプルな電卓Webアプリケ�
 ### 開発モード
 
 ```bash
-./mvnw quarkus:dev
+mvn quarkus:dev
 ```
 
 アプリケーションは http://localhost:8080/calculator でアクセスできます。
@@ -35,7 +35,7 @@ Quarkusフレームワークを使用したシンプルな電卓Webアプリケ�
 ### パッケージング
 
 ```bash
-./mvnw package
+mvn package
 ```
 
 `quarkus-run.jar`が`target/quarkus-app/`に生成されます。
@@ -51,13 +51,13 @@ java -jar target/quarkus-app/quarkus-run.jar
 ### ネイティブ実行可能ファイルの作成
 
 ```bash
-./mvnw package -Pnative
+mvn package -Pnative
 ```
 
 GraalVMがインストールされていない場合、コンテナビルドを使用：
 
 ```bash
-./mvnw package -Pnative -Dquarkus.native.container-build=true
+mvn package -Pnative -Dquarkus.native.container-build=true
 ```
 
 ### ネイティブ実行可能ファイルの実行
@@ -69,7 +69,7 @@ GraalVMがインストールされていない場合、コンテナビルドを�
 ## テスト
 
 ```bash
-./mvnw test
+mvn test
 ```
 
 ## プロジェクト構成
