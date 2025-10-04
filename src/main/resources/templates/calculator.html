@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>電卓アプリ</title>
+    <link rel="stylesheet" href="/css/calculator.css">
+</head>
+<body>
+    <div class="container">
+        <h1>電卓アプリ</h1>
+
+        <div class="calculator">
+            <div class="display">
+                <div class="result" th:text="${result}">0</div>
+            </div>
+
+            <form method="post" action="/calculator">
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="num1">数値1:</label>
+                        <input type="number" id="num1" name="num1" th:value="${num1 != null ? num1 : ''}" step="any" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="operator">演算子:</label>
+                        <select id="operator" name="operator" required>
+                            <option value="" th:selected="${#strings.isEmpty(operator)}">選択してください</option>
+                            <option value="+" th:selected="${#strings.equals(operator, '+')}">+ (足し算)</option>
+                            <option value="-" th:selected="${#strings.equals(operator, '-')}">- (引き算)</option>
+                            <option value="*" th:selected="${#strings.equals(operator, '*')}">× (掛け算)</option>
+                            <option value="/" th:selected="${#strings.equals(operator, '/')}">÷ (割り算)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="num2">数値2:</label>
+                        <input type="number" id="num2" name="num2" th:value="${num2 != null ? num2 : ''}" step="any" required>
+                    </div>
+                </div>
+
+                <div class="button-section">
+                    <button type="submit" class="calculate-btn">計算する</button>
+                    <button type="button" class="clear-btn" onclick="clearForm()">クリア</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="calculator-buttons">
+            <h3>クイック入力</h3>
+            <div class="number-pad">
+                <button type="button" onclick="appendToInput('7')">7</button>
+                <button type="button" onclick="appendToInput('8')">8</button>
+                <button type="button" onclick="appendToInput('9')">9</button>
+                <button type="button" onclick="setOperator('/')" class="operator">÷</button>
+
+                <button type="button" onclick="appendToInput('4')">4</button>
+                <button type="button" onclick="appendToInput('5')">5</button>
+                <button type="button" onclick="appendToInput('6')">6</button>
+                <button type="button" onclick="setOperator('*')" class="operator">×</button>
+
+                <button type="button" onclick="appendToInput('1')">1</button>
+                <button type="button" onclick="appendToInput('2')">2</button>
+                <button type="button" onclick="appendToInput('3')">3</button>
+                <button type="button" onclick="setOperator('-')" class="operator">-</button>
+
+                <button type="button" onclick="appendToInput('0')" class="zero">0</button>
+                <button type="button" onclick="appendToInput('.')">.</button>
+                <button type="button" onclick="setOperator('+')" class="operator">+</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = 'num1';
+
+        function appendToInput(value) {
+            const input = document.getElementById(currentInput);
+            if (input.value === '0' && value !== '.') {
+                input.value = value;
+            } else {
+                input.value += value;
+            }
+        }
+
+        function setOperator(op) {
+            document.getElementById('operator').value = op;
+            currentInput = 'num2';
+            document.getElementById('num2').focus();
+        }
+
+        function clearForm() {
+            document.getElementById('num1').value = '';
+            document.getElementById('num2').value = '';
+            document.getElementById('operator').value = '';
+            currentInput = 'num1';
+            document.getElementById('num1').focus();
+        }
+
+        // Enter キーで計算実行
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.querySelector('.calculate-btn').click();
+            }
+        });
+
+        // 初期フォーカス
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('num1').focus();
+        });
+    </script>
+</body>
+</html>
